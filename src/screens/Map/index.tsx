@@ -217,13 +217,14 @@ const Map: React.FC = () => {
     if (socket) {
       getLocationPermition();
 
+      // TODO verificar todos os onlines ao conectar
+
       socket.emit('teste', 'request');
 
-      socket.on('teste', param => {
-        console.log(param);
-        setPropsApi(props => ({
-          onlineUsers: props?.onlineUsers,
-          online: props?.online || false,
+      socket.on('teste', (param: propsApi) => {
+        setPropsApi(() => ({
+          onlineUsers: param.onlineUsers,
+          online: param?.online || false,
         }));
       });
 
@@ -316,7 +317,7 @@ const Map: React.FC = () => {
         <View
           style={{
             position: 'absolute',
-            bottom: 30,
+            bottom: 60,
             right: 30,
             zIndex: 1,
           }}>
@@ -326,6 +327,7 @@ const Map: React.FC = () => {
               height: 50,
               backgroundColor: 'blue',
               borderRadius: 999,
+              opacity: 0.5,
             }}
             onPress={seeAllMarkers}
           />
